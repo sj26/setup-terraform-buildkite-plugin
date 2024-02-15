@@ -1,0 +1,12 @@
+name: Setup Terraform
+description: Install Terraform for use in Buildkite builds
+author: https://github.com/sj26
+requirements:
+  - curl
+  - jq
+  - funzip
+  - bash
+configuration:
+  properties:
+    version:
+      type: string

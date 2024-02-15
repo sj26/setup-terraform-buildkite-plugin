@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+echo "--- Setup terraform"
+
+TERRAFORM_VERSION="${BUILDKITE_PLUGIN_SETUP_TERRAFORM_VERSION:-$(curl --silent --show-error "https://api.github.com/repos/hashicorp/terraform/releases/latest" | jq --raw-output ".tag_name")}"
+
+# TODO: Negotiate operating system
+TERRAFORM_OS="linux" # or darwin, freebsd, openbsd, solaris, windows
+
+# TODO: Negotiate architecture
+TERRAFORM_ARCH="amd64" # or 386, arm, arm64
+
+TERRAFORM_URL="https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION#v}/terraform_${TERRAFORM_VERSION#v}_${TERRAFORM_OS}_${TERRAFORM_ARCH}.zip"
+
+# TODO: Avoid installing if already installed at correct version
+curl --silent --show-error --location --output - "${TERRAFORM_URL}" | funzip > /usr/local/bin/terraform
+
+chmod 0755 /usr/local/bin/terraform
+
+terraform version
