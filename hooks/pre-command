@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-echo "--- Setup terraform"
+echo "~~~ Setup terraform"
 
 TERRAFORM_VERSION="${BUILDKITE_PLUGIN_SETUP_TERRAFORM_VERSION:-$(curl --silent --show-error "https://api.github.com/repos/hashicorp/terraform/releases/latest" | jq --raw-output ".tag_name")}"
 
