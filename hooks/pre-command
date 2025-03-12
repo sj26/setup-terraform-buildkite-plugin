@@ -15,7 +15,10 @@ TERRAFORM_ARCH="amd64" # or 386, arm, arm64
 TERRAFORM_URL="https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION#v}/terraform_${TERRAFORM_VERSION#v}_${TERRAFORM_OS}_${TERRAFORM_ARCH}.zip"
 
 # TODO: Avoid installing if already installed at correct version
-curl --silent --show-error --location --output - "${TERRAFORM_URL}" | funzip > /usr/local/bin/terraform
+TERRAFORM_DOWNLOAD_FILE="$(mktemp)"
+curl --silent --show-error --location --output "${TERRAFORM_DOWNLOAD_FILE}" "${TERRAFORM_URL}"
+unzip "${TERRAFORM_DOWNLOAD_FILE}" terraform -d /usr/local/bin
+rm "${TERRAFORM_DOWNLOAD_FILE}"
 
 chmod 0755 /usr/local/bin/terraform
 
